@@ -22,7 +22,7 @@ export default function App() {
 
     return(
         <div style={divStyle}>
-            <button style={buttonStyle}>MODE 1</button>
+            <button style={buttonStyle}>MODE 0</button>
             <button style={buttonStyle}>MODE 2</button>
             <button style={buttonStyle}>MODE 3</button>
             <button style={buttonStyle}>MODE 4</button>
