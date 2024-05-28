@@ -1,2 +1,2 @@
-print('connected')
+print('connect')
 
