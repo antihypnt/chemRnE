@@ -1,23 +1,28 @@
 import React from 'react';
+import {useState} from 'react';
 
 export default function App() {
 
-    // CSS 안돼서 포기함
+    // 스타일 영역 (CSS 안돼서 포기함)
     const buttonStyle = {
         width: "100px",
         height: "40px",
-        background: "#275efe",
+        background: "#2F3545",
         color: "#fff",
+        boxShadow: "0 2px 4px -1px #151924",
         fontSize: "15px",
         fontFamily: "Roboto",
         display: "inline-block",
         borderRadius: "30px",
         border: "none",
-        margin: "10px 25px 0px 25px"
+        margin: "10px 30px 0px 30px"
     }
 
     const divStyle = {
-        textAlign: "center"
+        width: "770px",
+        height: "520px",
+        textAlign: "center",
+        background: "#FFF"
     }
 
     return(
