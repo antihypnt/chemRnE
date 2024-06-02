@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component, useEffect} from 'react';
 import {useState} from 'react';
 
 export default function App() {
@@ -8,6 +8,9 @@ export default function App() {
     const [userName, setUserName] = useState();
     const [loggedIn, setLoggedIn] = useState(false);
     const [isHovering, setIsHovering] = useState(false);
+    const [isHovering1, setIsHovering1] = useState(false);
+    const [isHovering2, setIsHovering2] = useState(false);
+    const [isHovering3, setIsHovering3] = useState(false);
     const [mode, setMode] = useState(0);
     const [sampleNumber, setSampleNumber] = useState("3");
 
@@ -20,10 +23,6 @@ export default function App() {
         setUserName(event.target.value);
     };
 
-    const saveSampleNumber = event => {
-        setSampleNumber(event.target.value);
-    }
-
     const saveLoggedIn = () => {
         setLoggedIn(true);
     };
@@ -32,9 +31,37 @@ export default function App() {
         setIsHovering(true);
     };
 
+    const handleMouseOver1 = () => {
+        setIsHovering1(true);
+    }
+
+    const handleMouseOver2 = () => {
+        setIsHovering2(true);
+    }
+
+    const handleMouseOver3 = () => {
+        setIsHovering3(true);
+    }
+
     const handleMouseout = () => {
         setIsHovering(false);
     };
+
+    const handleMouseout1 = () => {
+        setIsHovering1(false);
+    };
+
+    const handleMouseout2 = () => {
+        setIsHovering2(false);
+    };
+
+    const handleMouseout3 = () => {
+        setIsHovering3(false);
+    };
+
+    const saveSampleNumber = event => {
+        setSampleNumber(event.target.value);
+    }
 
     const saveMode1 = () => {setMode(1);};
     const saveMode2 = () => {setMode(2);};
@@ -43,79 +70,68 @@ export default function App() {
     // 스타일 영역 (CSS 안돼서 포기함)
     const buttonStyle1 = {
         position: "absolute",
-        left: "120px",
+        left: isHovering1? "110px" : "120px",
         top: "370px",
-        width: "120px",
+        width: isHovering1? "140px" : "120px",
         height: "40px",
-        backgroundImage: "linear-gradient(45deg, #EA5455, #FEB692)",
-        color: "#fff",
+        backgroundImage: isHovering1? "linear-gradient(45deg, #fff, #fff)" : "linear-gradient(45deg, #EA5455, #FEB692)",
+        color: isHovering1? "#2F3545" : "#fff",
         boxShadow: "0 2px 4px -1px #151924",
         fontSize: "15px",
         fontFamily: "Roboto",
         borderRadius: "30px",
         border: "none",
         margin: "10px 0px 10px 0px",
-        opacity: mode === 0 ? 1 : 0.5
-    }
-
-    const buttonStyle2 = {
-        position: "absolute",
-        left: "320px",
-        top: "370px",
-        width: "120px",
-        height: "40px",
-        backgroundImage: "linear-gradient(45deg, #123597, #87ABFF)",
-        color: "#fff",
-        boxShadow: "0 2px 4px -1px #151924",
-        fontSize: "15px",
-        fontFamily: "Roboto",
-        borderRadius: "30px",
-        border: "none",
-        margin: "10px 0px 10px 0px",
-        opacity: mode === 1 ? 1 : 0.5
-    }
-
-    const buttonStyle3 = {
-        position: "absolute",
-        left: "520px",
-        top: "370px",
-        width: "120px",
-        height: "40px",
-        backgroundImage: "linear-gradient(45deg, #9F44D3, #E2B0FF)",
-        color: "#fff",
-        boxShadow: "0 2px 4px -1px #151924",
-        fontSize: "15px",
-        fontFamily: "Roboto",
-        borderRadius: "30px",
-        border: "none",
-        margin: "10px 0px 10px 0px",
-        opacity: mode === 2 ? 1 : 0.5
-    }
-
-    const startButtonStyle = {
-        position: "absolute",
-        left: "100px",
-        width: "100px",
-        height: "40px",
-        backgroundImage: "linear-gradient(45deg, #123597, #87ABFF)",
-        color: "#fff",
-        boxShadow: "0 2px 4px -1px #151924",
-        fontSize: "15px",
-        fontFamily: "Roboto",
-        borderRadius: "30px",
-        border: "none",
-        margin: "20px 0px 10px 0px",
+        opacity: mode === 0 ? 1 : 0.5,
         transitionProperty: "background, color, width, left",
         transitionDuration: "0.3s"
     }
 
-    const hoverStartButtonStyle = {
+    const buttonStyle2 = {
         position: "absolute",
-        left: "90px",
-        width: "120px",
+        left: isHovering2? "310px" : "320px",
+        top: "370px",
+        width: isHovering2? "140px" : "120px",
         height: "40px",
-        background: "#fff",
-        color: "#2F3545",
+        backgroundImage: isHovering2? "linear-gradient(0deg, #fff, #fff)" : "linear-gradient(45deg, #123597, #87ABFF)",
+        color: isHovering2? "#2F3545" : "#fff",
+        boxShadow: "0 2px 4px -1px #151924",
+        fontSize: "15px",
+        fontFamily: "Roboto",
+        borderRadius: "30px",
+        border: "none",
+        margin: "10px 0px 10px 0px",
+        opacity: mode === 1 ? 1 : 0.5,
+        transitionProperty: "background, color, width, left",
+        transitionDuration: "0.3s"
+    }
+
+    const buttonStyle3 = {
+        position: "absolute",
+        left: isHovering3? "510px" : "520px",
+        top: "370px",
+        width: isHovering3? "140px" : "120px",
+        height: "40px",
+        backgroundImage: isHovering3? "linear-gradient(45deg, #fff, #fff)" : "linear-gradient(45deg, #9F44D3, #E2B0FF)",
+        color: isHovering3? "#2F3545" : "#fff",
+        boxShadow: "0 2px 4px -1px #151924",
+        fontSize: "15px",
+        fontFamily: "Roboto",
+        borderRadius: "30px",
+        border: "none",
+        margin: "10px 0px 10px 0px",
+        opacity: mode === 2 ? 1 : 0.5,
+        transitionProperty: "background, color, width, left",
+        transitionDuration: "0.3s"
+    }
+
+    const startButtonStyle = {
+        position: "absolute",
+        left: isHovering? "90px" : "100px",
+        width: isHovering? "120px" : "100px",
+        height: "40px",
+        backgroundImage: isHovering? "linear-gradient(0deg, #fff, #fff)" : "linear-gradient(45deg, #123597, #87ABFF)",
+        color: isHovering? "#2F3545" : "#fff",
         boxShadow: "0 2px 4px -1px #151924",
         fontSize: "15px",
         fontFamily: "Roboto",
@@ -168,7 +184,7 @@ export default function App() {
 
             {loggedIn && <div>
                 <div>{userName}의 {projectName}<br/>(Ctrl+Q를 눌러 나갈 수 있으며, Ctrl+R를 눌러 홈 화면으로 돌아가세요.)</div>
-                <button style={buttonStyle1} onClick={saveMode1}>기초 측정</button>
+                <button style={buttonStyle1} onClick={saveMode1} onMouseOver={handleMouseOver1} onMouseOut={handleMouseout1}>기초 측정</button>
                 <div style={{
                     left: "300px",
                     top: "100px",
@@ -195,8 +211,8 @@ export default function App() {
                     </div>
                     }
                 </div>
-                <button style={buttonStyle2} onClick={saveMode2}>샘플 확정</button>
-                <button style={buttonStyle3} onClick={saveMode3}>미지 측정</button>
+                <button style={buttonStyle2} onClick={saveMode2} onMouseOver={handleMouseOver2} onMouseOut={handleMouseout2}>샘플 확정</button>
+                <button style={buttonStyle3} onClick={saveMode3} onMouseOver={handleMouseOver3} onMouseOut={handleMouseout3}>미지 측정</button>
             </div>}
 
             {!loggedIn && <div style={{left: "240px", top: "140px", position: "absolute"}}>
@@ -204,7 +220,7 @@ export default function App() {
                 <input onChange={saveUserName} style = {inputStyle} placeholder={" 사용자명"}/><br/><br/>
                 <input onChange={saveProjectName} style = {inputStyle} placeholder={" 프로젝트명"}/><br/><br/>
                 <button
-                    style={isHovering? hoverStartButtonStyle : startButtonStyle}
+                    style={startButtonStyle}
                     onClick={saveLoggedIn}
                     onMouseOver={handleMouseOver}
                     onMouseOut={handleMouseout}>다음</button>
