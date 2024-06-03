@@ -14,7 +14,27 @@ export default function App() {
     const [mode, setMode] = useState(0);
     const [sampleNumber, setSampleNumber] = useState("3");
 
-    // 함수 영역
+    // 함수 영역 (선형회귀)      참고 : (https://blog.naver.com/sujinleeme/221189944039)
+
+    const utils = {
+        sum: (arr) => arr.reduce((total, amount) => total + amount),
+        avg: (arr) => utils.sum(arr) / arr.length,
+    }
+
+    const linearRegression = (data) => {
+        let x_avg = utils.avg(data.x);
+        let y_avg = utils.avg(data.y);
+        let num = utils.sum(data.x.map((x, i) => (x - x_avg) * (data.y[i] - y_avg)));
+        let den = utils.sum(data.x.map(x => ((x - x_avg) ** 2)));
+
+        let m = num / den;
+        let b = y_avg - m * x_avg;
+
+        return [m, b];
+    }
+
+    // 그 외 다양한 함수
+
     const saveProjectName = event => {
         setProjectName(event.target.value);
     };
@@ -70,7 +90,7 @@ export default function App() {
     // 스타일 영역 (CSS 안돼서 포기함)
     const buttonStyle1 = {
         position: "absolute",
-        left: isHovering1? "110px" : "120px",
+        left: isHovering1? "320px" : "330px",
         top: "370px",
         width: isHovering1? "140px" : "120px",
         height: "40px",
@@ -82,14 +102,13 @@ export default function App() {
         borderRadius: "30px",
         border: "none",
         margin: "10px 0px 10px 0px",
-        opacity: mode === 0 ? 1 : 0.5,
         transitionProperty: "background, color, width, left",
         transitionDuration: "0.3s"
     }
 
     const buttonStyle2 = {
         position: "absolute",
-        left: isHovering2? "310px" : "320px",
+        left: isHovering2? "320px" : "330px",
         top: "370px",
         width: isHovering2? "140px" : "120px",
         height: "40px",
@@ -101,14 +120,13 @@ export default function App() {
         borderRadius: "30px",
         border: "none",
         margin: "10px 0px 10px 0px",
-        opacity: mode === 1 ? 1 : 0.5,
         transitionProperty: "background, color, width, left",
         transitionDuration: "0.3s"
     }
 
     const buttonStyle3 = {
         position: "absolute",
-        left: isHovering3? "510px" : "520px",
+        left: isHovering3? "320px" : "330px",
         top: "370px",
         width: isHovering3? "140px" : "120px",
         height: "40px",
@@ -120,7 +138,6 @@ export default function App() {
         borderRadius: "30px",
         border: "none",
         margin: "10px 0px 10px 0px",
-        opacity: mode === 2 ? 1 : 0.5,
         transitionProperty: "background, color, width, left",
         transitionDuration: "0.3s"
     }
@@ -154,8 +171,22 @@ export default function App() {
         textAlign: "center",
     }
 
+    const defaultInputStyle = {
+        position: "absolute",
+        left: "290px",
+        top: "260px",
+        width: "200px",
+        height: "30px",
+        outline: "none",
+        border: 0,
+        margin: "5px 0px 0px 0px",
+        borderRadius: "30px",
+        background: "#E9ECEF",
+        textAlign: "center",
+    }
+
     const sampleInputStyle = {
-        width: "120px",
+        width: "150px",
         height: "30px",
         outline: "none",
         border: 0,
@@ -176,49 +207,60 @@ export default function App() {
         borderRadius: "30px",
         border: "none",
         margin: "10px 0px 10px 0px",
-        opacity: mode === 1 ? 1 : 0.5,
     }
 
     return(
         <div>
 
             {loggedIn && <div>
-                <div>{userName}의 {projectName}<br/>(Ctrl+Q를 눌러 나갈 수 있으며, Ctrl+R를 눌러 홈 화면으로 돌아가세요.)</div>
-                <button style={buttonStyle1} onClick={saveMode1} onMouseOver={handleMouseOver1} onMouseOut={handleMouseout1}>기초 측정</button>
-                <div style={{
-                    left: "300px",
-                    top: "100px",
-                    position: "absolute",
-                    display: "inline-block",
-                    opacity: mode === 1 ? 1 : 0.5
-                }}>
-                    <input onChange={saveSampleNumber} type={"radio"} name={"sampleNumber"} value="3"/>3개&nbsp;
+                    <div>{userName}의 {projectName}<br/>(Ctrl+Q를 눌러 나갈 수 있으며, Ctrl+R를 눌러 홈 화면으로 돌아가세요.)</div>
+                {mode === 0 && <div>
+                    <h3 style={{textAlign: "center", margin: "80px 0px 0px 0px"}}>시료 칸에 증류수를 넣고,<br/>터미널에서 M을 눌러 측정 후 입력하세요.</h3>
+                    <input style={defaultInputStyle} placeholder={"측정값"}/>
+                    <button style={buttonStyle1} onClick={saveMode1} onMouseOver={handleMouseOver1} onMouseOut={handleMouseout1}>기초값 확정</button>
+                </div>}
+                {mode === 1 && <div>
+                    <h3 style={{textAlign: "center", margin: "30px 0px 0px 0px"}}>샘플 시료의 농도 및 각각의 측정값을 입력하세요.</h3>
+                    <input onChange={saveSampleNumber} type={"radio"} name={"sampleNumber"} value="3" style = {{margin: "20px 0px 0px 310px"}}/>3개&nbsp;
                     <input onChange={saveSampleNumber} type={"radio"} name={"sampleNumber"} value="4"/>4개&nbsp;
                     <input onChange={saveSampleNumber} type={"radio"} name={"sampleNumber"} value="5"/>5개 <br/>
-                    <input style={sampleInputStyle}/><button style={sampleInputButton}>측정</button>
-                    <br/><input style={sampleInputStyle}/><button style={sampleInputButton}>측정</button>
-                    <br/><input style={sampleInputStyle}/><button style={sampleInputButton}>측정</button>
+                    <br/>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;샘플 1 : <input style={sampleInputStyle} placeholder={"샘플 1 농도"}/><input style={sampleInputStyle} placeholder={"샘플 1 측정값"}/>
+                    <br/>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;샘플 2 : <input style={sampleInputStyle} placeholder={"샘플 2 농도"}/><input style={sampleInputStyle} placeholder={"샘플 2 측정값"}/>
+                    <br/>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;샘플 3 : <input style={sampleInputStyle} placeholder={"샘플 3 농도"}/><input style={sampleInputStyle} placeholder={"샘플 3 측정값"}/>
                     {(sampleNumber === "4" || sampleNumber === "5") &&
                         <div>
-                            <input style={sampleInputStyle}/>
-                            <button style={sampleInputButton}>측정</button>
+                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;샘플 4 : <input style={sampleInputStyle} placeholder={"샘플 4 농도"}/><input style={sampleInputStyle} placeholder={"샘플 4 측정값"}/>
                         </div>
                     }
                     {sampleNumber === "5" &&
-                    <div>
-                        <input style={sampleInputStyle}/>
-                        <button style={sampleInputButton}>측정</button>
-                    </div>
+                        <div>
+                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;샘플 5 : <input style={sampleInputStyle} placeholder={"샘플 5 농도"}/><input style={sampleInputStyle} placeholder={"샘플 5 측정값"}/>
+                        </div>
                     }
-                </div>
-                <button style={buttonStyle2} onClick={saveMode2} onMouseOver={handleMouseOver2} onMouseOut={handleMouseout2}>샘플 확정</button>
-                <button style={buttonStyle3} onClick={saveMode3} onMouseOver={handleMouseOver3} onMouseOut={handleMouseout3}>미지 측정</button>
+                    <button
+                        style={buttonStyle2}
+                        onClick={saveMode2}
+                        onMouseOver={handleMouseOver2}
+                        onMouseOut={handleMouseout2}>샘플 확정
+                    </button>
+                </div>}
+                {mode === 2 && <div>
+                    <h3 style={{textAlign: "center", margin: "80px 0px 0px 0px"}}>시료 칸에 미지 시료를 넣고,<br/>터미널에서 M을 눌러 측정 후
+                        입력하세요.</h3>
+                    <input style={defaultInputStyle} placeholder={"측정값"}/>
+                    <button
+                        style={buttonStyle3}
+                        onClick={saveMode3}
+                        onMouseOver={handleMouseOver3}
+                        onMouseOut={handleMouseout3}>미지 시료 확정
+                    </button>
+                </div>}
             </div>}
 
             {!loggedIn && <div style={{left: "240px", top: "140px", position: "absolute"}}>
                 <h3>사용자와 프로젝트명을 입력하세요.</h3>
-                <input onChange={saveUserName} style = {inputStyle} placeholder={" 사용자명"}/><br/><br/>
-                <input onChange={saveProjectName} style = {inputStyle} placeholder={" 프로젝트명"}/><br/><br/>
+                <input onChange={saveUserName} style = {inputStyle} placeholder={"사용자명"}/><br/><br/>
+                <input onChange={saveProjectName} style = {inputStyle} placeholder={"프로젝트명"}/><br/><br/>
                 <button
                     style={startButtonStyle}
                     onClick={saveLoggedIn}

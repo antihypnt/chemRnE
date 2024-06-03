@@ -1,5 +1,6 @@
 from pyfirmata import Arduino, util
 import time
+import keyboard
 
 board = Arduino('/dev/ttyACM0')
 it = util.Iterator(board)
