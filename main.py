@@ -7,6 +7,5 @@ it = util.Iterator(board)
 it.start()
 board.analog[0].enable_reporting()
 
-while True:
-    time.sleep(0.5)
-    print(board.analog[0].read())
+keyboard.add_hotkey('m', lambda : print(board.analog[0].read()))
+keyboard.wait()
