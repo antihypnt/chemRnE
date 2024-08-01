@@ -1,5 +1,5 @@
-import React, {Component, useEffect} from 'react';
-import {useState} from 'react';
+import React, {Component, useEffect, useState} from 'react';
+import axios from "axios"
 
 export default function App() {
 
@@ -11,7 +11,9 @@ export default function App() {
     const [isHovering1, setIsHovering1] = useState(false);
     const [isHovering2, setIsHovering2] = useState(false);
     const [isHovering3, setIsHovering3] = useState(false);
-    const [mode, setMode] = useState(0);
+    const [mode, setMode] = useState(100);
+
+    // 정량분석 변수 영역
     const [sampleNumber, setSampleNumber] = useState("3");
     const [gibon, setGibon] = useState(0);
     const [miji, setMiji] = useState(0);
@@ -26,7 +28,10 @@ export default function App() {
     const [abs4, setAbs4] = useState(0);
     const [abs5, setAbs5] = useState(0);
 
-    // 함수 영역 (선형회귀)      참고 : (https://blog.naver.com/sujinleeme/221189944039)
+    // 키네틱 변수 영역
+
+
+    // 함수 영역 (선형회귀)
 
     const utils = {
         sum: (arr) => arr.reduce((total, amount) => total + amount),
@@ -146,6 +151,9 @@ export default function App() {
     const saveMode1 = () => {setMode(1);};
     const saveMode2 = () => {setMode(2);};
     const saveMode3 = () => {setMode(3);};
+    const saveMode4 = () => {setMode(4);};
+    const saveMode5 = () => {setMode(5);};
+    const saveMode0 = () => {setMode(0);};
 
     // 스타일 영역 (CSS 안돼서 포기함)
     const buttonStyle1 = {
@@ -274,11 +282,19 @@ export default function App() {
 
             {loggedIn && <div>
                     <div>{userName}의 {projectName}<br/>(Ctrl+Q를 눌러 나갈 수 있으며, Ctrl+R를 눌러 홈 화면으로 돌아가세요.)</div>
+
+                {mode === 100 && <div>
+                    대충 모드 선택 공간
+                    <button onClick={saveMode0}>정량분석 하기</button>
+                    <button onClick={saveMode4}>키네틱 하기</button>
+                </div>}
+
                 {mode === 0 && <div>
-                    <h3 style={{textAlign: "center", margin: "50px 0px 0px 0px"}}>시료 칸에 증류수를 넣고,<br/>터미널에서 M을 눌러 측정 후 입력하세요.</h3>
+                <h3 style={{textAlign: "center", margin: "50px 0px 0px 0px"}}>시료 칸에 증류수를 넣고,<br/>터미널에서 M을 눌러 측정 후 입력하세요.</h3>
                     <input style={defaultInputStyle} placeholder={"측정값"} onChange={saveGibon}/>
                     <button style={buttonStyle1} onClick={saveMode1} onMouseOver={handleMouseOver1} onMouseOut={handleMouseout1}>기초값 확정</button>
                 </div>}
+
                 {mode === 1 && <div>
                     <h3 style={{textAlign: "center", margin: "30px 0px 0px 0px"}}>샘플 시료의 농도 및 각각의 측정값을 입력하세요.</h3>
                     <input onChange={saveSampleNumber} type={"radio"} name={"sampleNumber"} value="3" style = {{margin: "20px 0px 0px 310px"}}/>3개&nbsp;
@@ -304,6 +320,7 @@ export default function App() {
                         onMouseOut={handleMouseout2}>샘플 확정
                     </button>
                 </div>}
+
                 {mode === 2 && <div>
                     <h3 style={{textAlign: "center", margin: "80px 0px 0px 0px"}}>시료 칸에 미지 시료를 넣고,<br/>터미널에서 M을 눌러 측정 후
                         입력하세요.</h3>
@@ -315,13 +332,20 @@ export default function App() {
                         onMouseOut={handleMouseout3}>미지 시료 확정
                     </button>
                 </div>}
+
                 {mode === 3 && <div>
                     <h3>{
                         ((((gibon - miji) / gibon) - (linearRegression({x: [conc1, conc2, conc3, conc4], y: [Math.floor(((gibon - abs1) / gibon) * 10000), Math.floor(((gibon - abs2) / gibon) * 10000), Math.floor(((gibon - abs3) / gibon) * 10000), Math.floor(((gibon - abs4) / gibon) * 10000)]})[1] / 10000)) / linearRegression({x: [conc1, conc2, conc3, conc4], y: [Math.floor(((gibon - abs1) / gibon) * 10000), Math.floor(((gibon - abs2) / gibon) * 10000), Math.floor(((gibon - abs3) / gibon) * 10000), Math.floor(((gibon - abs4) / gibon) * 10000)]})[0])
                     }</h3>
-                </div>
-                }
+                </div>}
+
+                {mode === 4 && <div>
+                    키네틱 어쩌고
+                </div>}
+
             </div>}
+
+
 
             {!loggedIn && <div style={{left: "240px", top: "110px", position: "absolute"}}>
                 <h3>사용자와 프로젝트명을 입력하세요.</h3>
