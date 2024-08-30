@@ -1,5 +1,6 @@
 import React, {Component, useEffect, useState} from 'react';
-import axios from "axios"
+
+import electron from 'electron'
 
 export default function App() {
 
@@ -12,6 +13,8 @@ export default function App() {
     const [isHovering2, setIsHovering2] = useState(false);
     const [isHovering3, setIsHovering3] = useState(false);
     const [mode, setMode] = useState(100);
+
+    const [test, setTest] = useState(1);
 
     // 정량분석 변수 영역
     const [sampleNumber, setSampleNumber] = useState("3");
@@ -348,7 +351,7 @@ export default function App() {
 
 
             {!loggedIn && <div style={{left: "240px", top: "110px", position: "absolute"}}>
-                <h3>사용자와 프로젝트명을 입력하세요.</h3>
+                <h3>사용자와 프로젝트명을 입력하세요.{test}</h3>
                 <input onChange={saveUserName} style = {inputStyle} placeholder={"사용자명"}/><br/><br/>
                 <input onChange={saveProjectName} style = {inputStyle} placeholder={"프로젝트명"}/><br/><br/>
                 <button

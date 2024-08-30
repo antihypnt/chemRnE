@@ -14,11 +14,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-board = Arduino('/dev/ttyACM0')
-it = util.Iterator(board)
-it.start()
-board.analog[0].enable_reporting()
-
 @app.get("/")
 async def quantitative():
-    return {"value": f"{board.analog[0].read()}"}
+    return {"value": 0}
