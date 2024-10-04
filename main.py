@@ -6,7 +6,7 @@ from PyQt5.QtCore import QTimer, Qt
 from pyfirmata import Arduino, util
 import time
 
-board = Arduino('dev/ttyACM0')
+board = Arduino('/dev/ttyACM0')
 it = util.Iterator(board)
 it.start()
 board.analog[0].enable_reporting()
@@ -49,8 +49,8 @@ class AppWindow(QWidget):
         self.setLayout(main_layout)
 
         # 창 크기 설정
-        self.setWindowTitle("분석 프로그램")
-        self.setGeometry(100, 100, 800, 600)  # 창 크기 설정
+        self.setWindowTitle("mini UV-Vis")
+        self.setGeometry(100, 100, 700, 400)  # 창 크기 설정
         self.show()
 
     def init_page1(self):
@@ -122,10 +122,8 @@ class AppWindow(QWidget):
         self.stacked_widget.setCurrentIndex(3)
 
     def measure_sample(self):
-        a = board.analog[0].read()
-        # measure 함수 호출 대신 기본 값 설정
-        self.gibon_value.setText("측정 값: " + str(a))
-        self.water_measurement = int(a)  # 증류수 측정 값을 저장
+        self.water_measurement = board.analog[0].read()
+        self.gibon_value.setText("측정 값: " + str(self.water_measurement))
 
     def go_to_sample_input(self):
         # 새로운 페이지 생성
