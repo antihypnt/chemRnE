@@ -134,7 +134,7 @@ class AppWindow(QWidget):
         layout.setAlignment(Qt.AlignCenter)
 
         # 샘플 시료 입력 관련
-        layout.addWidget(QLabel("샘플 시료의 농도 및 측정값을 입력하세요."))
+        layout.addWidget(QLabel("샘플 시료의 농도를 입력하고 측정하세요."))
 
         # 샘플 수 선택 라디오 버튼
         sample_layout = QHBoxLayout()
@@ -216,29 +216,25 @@ class AppWindow(QWidget):
         self.stacked_widget.setCurrentWidget(self.page6)
 
     def measure_sample1(self):
-        self.sample1_value = 0.8
+        self.sample1_value = board.analog[0].read()
         self.sample1_input.setText(f"측정 값: {self.sample1_value}")
-        QTimer.singleShot(3000, lambda: self.sample1_input.setText("측정 완료"))
 
     def measure_sample2(self):
-        self.sample2_value = 0.7
+        self.sample2_value = board.analog[0].read()
         self.sample2_input.setText(f"측정 값: {self.sample2_value}")
-        QTimer.singleShot(3000, lambda: self.sample2_input.setText("측정 완료"))
 
     def measure_sample3(self):
-        self.sample3_value = 0.9
+        self.sample3_value = board.analog[0].read()
         self.sample3_input.setText(f"측정 값: {self.sample3_value}")
-        QTimer.singleShot(3000, lambda: self.sample3_input.setText("측정 완료"))
 
     def measure_sample4(self):
         if self.radio4.isChecked():
-            self.sample4_value = 1.0
+            self.sample4_value = board.analog[0].read()
             self.sample4_input.setText(f"측정 값: {self.sample4_value}")
-            QTimer.singleShot(3000, lambda: self.sample4_input.setText("측정 완료"))
 
     def measure_unknown_sample(self):
         # 미지 시료 측정 (임시 값)
-        self.unknown_sample_value = 0.6
+        self.unknown_sample_value = board.analog[0].read()
         self.unknown_sample_input.setText(f"측정 값: {self.unknown_sample_value}")
         self.calculate_unknown_concentration()
 
