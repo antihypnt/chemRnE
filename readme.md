@@ -2,6 +2,8 @@ mini UV-Vis UI
 ==============
 양자점 광원과 라즈베리파이, 조도센서를 이용해 실제 UV-Vis (자외선가시광선분광기)를 소형화한 UV-Vis 키트를 개발하는 연구입니다. (경기도과학전람회 특상, 전국과학전람회 출품작)
 
+현재 electron이 아닌 python 자체만으로 구동하는 방향으로 개발중입니다.
+
 ## 사용법
 1. 주어진 3D 모델링을 3D 프린터로 출력합니다.<br/><br/>
     ![image](https://github.com/user-attachments/assets/8d6910bf-f086-4bc7-8204-b628794989e3)<br/>
